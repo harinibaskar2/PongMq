@@ -1,18 +1,6 @@
 package hbaskar;
 
-
 import javax.swing.*;
-import javiergs.mqtt.Publisher;
-
-
-
-
-/**
-
- *
- * @author hbaskar
- * @version 1.1
- */
 
 public class T1PongMain {
     public static void main(String[] args) {
@@ -20,7 +8,7 @@ public class T1PongMain {
         T1ChatPanel chatPanel = new T1ChatPanel(5);
 
         // Start the MQTT publisher (and subscriber if needed)
-        Publisher publisher = new Publisher();  // update to pass ChatPanel if needed
+        T1Publisher publisher = new T1Publisher();  // pass chatPanel here if needed
         Thread mqttThread = new Thread(publisher);
         mqttThread.start();
 

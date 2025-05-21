@@ -105,7 +105,7 @@ public class T1DataRepository {
 
     private void publishCoordinates() {
         // Your existing MQTT publish logic
-        coordinate coord = new coordinate(ballX, ballY);
+        T1Coordinate coord = new T1Coordinate(ballX, ballY);
         T1Publisher.publishCoordinate(coord);
     }
 }
