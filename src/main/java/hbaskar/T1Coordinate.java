@@ -2,6 +2,15 @@ package hbaskar;
 
 import java.io.Serializable;
 
+/**
+ * This class is a simple JPanel that will be used to display the Bars, Ball, and Chat.
+ *
+ * @author hbaskar
+ * @version 1.1
+ */
+
+
+
 public class T1Coordinate implements Serializable {
 
     private int mouseX;

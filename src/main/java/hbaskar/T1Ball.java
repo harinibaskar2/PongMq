@@ -44,7 +44,7 @@ package hbaskar;
 
     public void publishState() {
         String message = x + "," + y;
-        publisher.publish("pong/ball", message);
+        T1Publisher.publish("pong/ball", message);
     }
 
     public void updateFromMessage(String message) {
