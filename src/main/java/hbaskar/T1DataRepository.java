@@ -15,6 +15,9 @@ public class T1DataRepository {
     private static final int RIGHT = 0;
     private static final int LEFT = 1;
 
+    public static final int SERVER = 0; 
+    public static final int CLIENT = 1;
+
     // Private constructor so no external instantiation
     private T1DataRepository() {
         ballX = 400;

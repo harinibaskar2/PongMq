@@ -1,6 +1,6 @@
 package hbaskar;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class T1PongMain {
     public static void main(String[] args) {
@@ -26,6 +26,7 @@ public class T1PongMain {
 
         // Clean shutdown of MQTT on app exit
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutdown hook triggered: stopping publisher...");
             publisher.stop();
             try {
                 mqttThread.join();
