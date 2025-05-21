@@ -1,19 +1,9 @@
 package hbaskar;
 
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-
-
-
-/**
-
- *
- * @author hbaskar
- * @version 1.1
- */
 public class T1DataRepository {
-    private static T1DataRepository instance;
+
+    // Single instance, volatile for safe publication in multi-threaded env
+    private static volatile T1DataRepository instance;
 
     private int ballX;
     private int ballY;
@@ -25,8 +15,8 @@ public class T1DataRepository {
     private static final int RIGHT = 0;
     private static final int LEFT = 1;
 
+    // Private constructor so no external instantiation
     private T1DataRepository() {
-   
         ballX = 400;
         ballY = 300;
         clientPlayerY = 250;
@@ -35,6 +25,7 @@ public class T1DataRepository {
         whoAmI = 0; // example default SERVER
     }
 
+    // Double-checked locking for thread-safe singleton access
     public static T1DataRepository getInstance() {
         if (instance == null) {
             synchronized (T1DataRepository.class) {
@@ -46,27 +37,56 @@ public class T1DataRepository {
         return instance;
     }
 
-    // Getters and setters
+    // Getters and setters for variables
+    public int getBallX() {
+        return ballX;
+    }
 
-    public int getBallX() { return ballX; }
-    public void setBallX(int ballX) { this.ballX = ballX; }
+    public void setBallX(int ballX) {
+        this.ballX = ballX;
+    }
 
-    public int getBallY() { return ballY; }
-    public void setBallY(int ballY) { this.ballY = ballY; }
+    public int getBallY() {
+        return ballY;
+    }
 
-    public int getClientPlayerY() { return clientPlayerY; }
-    public void setClientPlayerY(int y) { clientPlayerY = y; }
+    public void setBallY(int ballY) {
+        this.ballY = ballY;
+    }
 
-    public int getServerPlayerY() { return serverPlayerY; }
-    public void setServerPlayerY(int y) { serverPlayerY = y; }
+    public int getClientPlayerY() {
+        return clientPlayerY;
+    }
 
-    public int getDirection() { return direction; }
-    public void setDirection(int direction) { this.direction = direction; }
+    public void setClientPlayerY(int y) {
+        clientPlayerY = y;
+    }
 
-    public int getWhoAmI() { return whoAmI; }
-    public void setWhoAmI(int whoAmI) { this.whoAmI = whoAmI; }
+    public int getServerPlayerY() {
+        return serverPlayerY;
+    }
 
+    public void setServerPlayerY(int y) {
+        serverPlayerY = y;
+    }
 
+    public int getDirection() {
+        return direction;
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public int getWhoAmI() {
+        return whoAmI;
+    }
+
+    public void setWhoAmI(int whoAmI) {
+        this.whoAmI = whoAmI;
+    }
+
+    // Move the ball logic
     public void moveBall() {
         if (direction == RIGHT)
             ballX += 10;
@@ -95,17 +115,10 @@ public class T1DataRepository {
         return false;
     }
 
-    // Keep your coordinate publishing if needed
+    // Coordinates setter
     public void setCoordinates(int x, int y) {
-
         this.ballX = x;
         this.ballY = y;
-        publishCoordinates();
-    }
 
-    private void publishCoordinates() {
-        // Your existing MQTT publish logic
-        T1Coordinate coord = new T1Coordinate(ballX, ballY);
-        T1Publisher.publishCoordinate(coord);
     }
 }

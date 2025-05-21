@@ -15,7 +15,7 @@ public class T1PongPanel extends JPanel implements ActionListener, MouseMotionLi
 
     private final T1ChatPanel chatPanel;
 
-    public T1PongPanel(ChatPanel chatPanel) {
+    public T1PongPanel(T1ChatPanel chatPanel) {
         this.chatPanel = chatPanel;
 
         addMouseMotionListener(this);
