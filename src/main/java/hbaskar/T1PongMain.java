@@ -1,3 +1,6 @@
+package hbaskar;
+
+
 import javax.swing.*;
 import javiergs.mqtt.Publisher;
 
@@ -11,10 +14,10 @@ import javiergs.mqtt.Publisher;
  * @version 1.1
  */
 
-public class PongMain {
+public class T1PongMain {
     public static void main(String[] args) {
         // Create the ChatPanel (shared with MQTT)
-        ChatPanel chatPanel = new ChatPanel(5);
+        T1ChatPanel chatPanel = new T1ChatPanel(5);
 
         // Start the MQTT publisher (and subscriber if needed)
         Publisher publisher = new Publisher();  // update to pass ChatPanel if needed
@@ -22,7 +25,7 @@ public class PongMain {
         mqttThread.start();
 
         // Create PongPanel and pass ChatPanel to it
-        PongPanel pongPanel = new PongPanel(chatPanel);
+        T1PongPanel pongPanel = new T1PongPanel(chatPanel);
 
         // Set up the JFrame
         JFrame frame = new JFrame("Pong Game");

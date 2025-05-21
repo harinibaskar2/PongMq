@@ -1,5 +1,5 @@
 
-package javiergs;
+package hbaskar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,11 +11,11 @@ import java.awt.event.*;
  * @author hbaskar
  * @version 1.1
  */
-public class PongPanel extends JPanel implements ActionListener, MouseMotionListener, MouseListener {
+public class T1PongPanel extends JPanel implements ActionListener, MouseMotionListener, MouseListener {
 
-    private final ChatPanel chatPanel;
+    private final T1ChatPanel chatPanel;
 
-    public PongPanel(ChatPanel chatPanel) {
+    public T1PongPanel(ChatPanel chatPanel) {
         this.chatPanel = chatPanel;
 
         addMouseMotionListener(this);
@@ -58,24 +58,24 @@ public class PongPanel extends JPanel implements ActionListener, MouseMotionList
     }
 
     private void drawClientPlayer(Graphics g) {
-        int y = Repository.getInstance().getClientPlayerY();
-        g.setColor(Repository.getInstance().getWhoAmI() == Repository.SERVER ? Color.DARK_GRAY : Color.WHITE);
+        int y = T1DataRepository.getInstance().getClientPlayerY();
+        g.setColor(T1DataRepository.getInstance().getWhoAmI() == T1DataRepository.SERVER ? Color.DARK_GRAY : Color.WHITE);
         g.fillRect(10, y, 10, 50);
     }
 
     private void drawServerPlayer(Graphics g) {
-        int y = Repository.getInstance().getServerPlayerY();
-        g.setColor(Repository.getInstance().getWhoAmI() == Repository.SERVER ? Color.DARK_GRAY : Color.WHITE);
+        int y = T1DataRepository.getInstance().getServerPlayerY();
+        g.setColor(T1DataRepository.getInstance().getWhoAmI() == T1DataRepository.SERVER ? Color.DARK_GRAY : Color.WHITE);
         g.fillRect(780, y, 10, 50);
     }
 
     private void drawBall(Graphics g) {
-        int x = Repository.getInstance().getBallX();
-        int y = Repository.getInstance().getBallY();
+        int x = T1DataRepository.getInstance().getBallX();
+        int y = T1DataRepository.getInstance().getBallY();
         if (x == 400) {
             g.setColor(new Color(172, 248, 199));
-        } else if ((Repository.getInstance().getWhoAmI() == Repository.SERVER && x <= 400) ||
-                (Repository.getInstance().getWhoAmI() == Repository.CLIENT && x >= 400)) {
+        } else if ((T1DataRepository.getInstance().getWhoAmI() == T1DataRepository.SERVER && x <= 400) ||
+                (T1DataRepository.getInstance().getWhoAmI() == T1DataRepository.CLIENT && x >= 400)) {
             g.setColor(Color.DARK_GRAY);
         } else {
             g.setColor(Color.WHITE);
@@ -96,16 +96,16 @@ public class PongPanel extends JPanel implements ActionListener, MouseMotionList
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (Repository.getInstance().getWhoAmI() == Repository.CLIENT)
-            Repository.getInstance().setClientPlayerY(e.getY());
+        if (T1DataRepository.getInstance().getWhoAmI() == T1DataRepository.CLIENT)
+            T1DataRepository.getInstance().setClientPlayerY(e.getY());
         else
-            Repository.getInstance().setServerPlayerY(e.getY());
+            T1DataRepository.getInstance().setServerPlayerY(e.getY());
         repaint();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Repository.getInstance().moveBall();
+        T1DataRepository.getInstance().moveBall();
         repaint();
     }
 
@@ -113,13 +113,13 @@ public class PongPanel extends JPanel implements ActionListener, MouseMotionList
     public void mouseClicked(MouseEvent e) {
         int mouseX = e.getX();
         int mouseY = e.getY();
-        int ballX = Repository.getInstance().getBallX();
-        int ballY = Repository.getInstance().getBallY();
+        int ballX = T1DataRepository.getInstance().getBallX();
+        int ballY = T1DataRepository.getInstance().getBallY();
 
         if (mouseX >= ballX - 5 && mouseX <= ballX + 5 &&
                 mouseY >= ballY - 5 && mouseY <= ballY + 5) {
             System.out.println("Ball clicked at: " + mouseX + ", " + mouseY);
-            Repository.getInstance().setCoordinates(mouseX, mouseY);
+            T1DataRepository.getInstance().setCoordinates(mouseX, mouseY);
         }
     }
 }

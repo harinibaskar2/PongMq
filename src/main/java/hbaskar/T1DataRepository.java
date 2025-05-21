@@ -1,5 +1,4 @@
-
-
+package hbaskar;
 
 
 
@@ -10,8 +9,8 @@
  * @author hbaskar
  * @version 1.1
  */
-public class Repository {
-    private static Repository instance;
+public class T1DataRepository {
+    private static T1DataRepository instance;
 
     private int ballX;
     private int ballY;
@@ -23,7 +22,7 @@ public class Repository {
     private static final int RIGHT = 0;
     private static final int LEFT = 1;
 
-    private Repository() {
+    private T1DataRepository() {
    
         ballX = 400;
         ballY = 300;
@@ -33,11 +32,11 @@ public class Repository {
         whoAmI = 0; // example default SERVER
     }
 
-    public static Repository getInstance() {
+    public static T1DataRepository getInstance() {
         if (instance == null) {
-            synchronized (Repository.class) {
+            synchronized (T1DataRepository.class) {
                 if (instance == null) {
-                    instance = new Repository();
+                    instance = new T1DataRepository();
                 }
             }
         }

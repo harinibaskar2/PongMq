@@ -1,4 +1,9 @@
-import java.awt.*;
+package hbaskar;
+
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,11 +16,11 @@ import java.util.List;
  * @version 1.1
  */
 
-public class ChatPanel {
+public class T1ChatPanel {
     private final List<String> messages = new LinkedList<>();
     private final int maxMessages;
 
-    public ChatPanel(int maxMessages) {
+    public T1ChatPanel(int maxMessages) {
         this.maxMessages = maxMessages;
     }
 
