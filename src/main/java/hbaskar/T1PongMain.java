@@ -23,7 +23,9 @@ public class T1PongMain {
     public static void main(String[] args) {
         // Create the ChatPanel (shared with MQTT)
         T1ChatPanel chatPanel = new T1ChatPanel(5);
-
+        chatPanel.addMessage("Welcome to Pong!");
+        chatPanel.addMessage("Use the mouse to move.");
+        chatPanel.addMessage("Click the ball to interact.");
         // Start the MQTT publisher (and subscriber if needed)
         T1Publisher publisher = new T1Publisher();  // pass chatPanel here if needed
         Thread mqttThread = new Thread(publisher);
