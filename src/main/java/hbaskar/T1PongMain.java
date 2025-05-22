@@ -4,8 +4,10 @@ package hbaskar;
 
 
 /**
- * This class is a simple JPanel that will be used to display the Bars, Ball, and Chat.
- *
+ * This class contains the main method that sets up and launches the Pong game window.
+ * It initializes the chat panel, starts the MQTT publisher, and integrates all components
+ * into a JFrame. It also handles a clean shutdown of the MQTT thread on exit.
+ * 
  * @author hbaskar
  * @version 1.1
  */

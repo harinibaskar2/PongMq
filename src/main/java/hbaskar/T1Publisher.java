@@ -1,15 +1,5 @@
 package hbaskar;
 
-
-
-
-/**
- * This class is a simple JPanel that will be used to display the Bars, Ball, and Chat.
- *
- * @author hbaskar
- * @version 1.1
- */
-
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;

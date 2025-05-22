@@ -10,11 +10,18 @@ import java.util.List;
 
 
 /**
- 
+ * This class is a simple chat panel used to display a list of messages 
+ * within a graphical context. It stores a limited number of messages 
+ * and provides a method to render them on screen.
+ * 
+ * The messages are displayed in a monospaced font, with each new message 
+ * shown beneath the previous ones.
  *
  * @author hbaskar
  * @version 1.1
  */
+
+
 
 public class T1ChatPanel {
     private final List<String> messages = new LinkedList<>();

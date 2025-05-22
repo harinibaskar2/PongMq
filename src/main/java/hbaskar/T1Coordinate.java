@@ -3,8 +3,16 @@ package hbaskar;
 import java.io.Serializable;
 
 /**
- * This class is a simple JPanel that will be used to display the Bars, Ball, and Chat.
+ * This class represents the coordinates of the ball and mouse interaction
+ * within a graphical panel. It stores the x and y positions and allows 
+ * for their retrieval and update.
  *
+ * This class is serializable, enabling it to be used in networked or 
+ * persistent storage applications.
+ * 
+ * It is used in the context of displaying interactive elements like 
+ * Bars, Ball, and Chat within a JPanel.
+ * 
  * @author hbaskar
  * @version 1.1
  */

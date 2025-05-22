@@ -3,11 +3,21 @@ package hbaskar;
 
 
 /**
- * This class is a simple JPanel that will be used to display the Bars, Ball, and Chat.
- *
+ * This class acts as a centralized data repository for storing and managing 
+ * the state of a simple Pong-style game. It maintains information about 
+ * the ball's position, paddle positions for both server and client players, 
+ * direction of the ball, and the role of the current instance (server or client).
+ * 
+ * It implements the Singleton design pattern to ensure that all components 
+ * in the application access and modify a consistent game state.
+ * 
+ * Game logic, including ball movement and collision detection, is encapsulated 
+ * in this class.
+ * 
  * @author hbaskar
  * @version 1.1
  */
+
 
 public class T1DataRepository {
 
