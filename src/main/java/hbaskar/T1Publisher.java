@@ -21,7 +21,7 @@ public class T1Publisher implements Runnable {
     private MqttClient client;
 
     private static final String BROKER = "tcp://test.mosquitto.org:1883";
-    private static final String TOPIC = "cal-poly/csc/309";
+    private static final String TOPIC = "ponggame";
     private static final String CLIENT_ID = "hbaskar";
 
     @Override

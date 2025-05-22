@@ -31,6 +31,10 @@ public class T1PongMain {
         Thread mqttThread = new Thread(publisher);
         mqttThread.start();
 
+        T1Subscriber subscriber = new T1Subscriber();
+        Thread subThread = new Thread(subscriber);
+        subThread.start();
+
         // Create PongPanel and pass ChatPanel to it
         T1PongPanel pongPanel = new T1PongPanel(chatPanel);
 
