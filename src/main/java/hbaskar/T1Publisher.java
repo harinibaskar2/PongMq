@@ -69,15 +69,23 @@ public class T1Publisher implements Runnable {
     public synchronized void publish(String topic, String messageStr) {
         if (client != null && client.isConnected()) {
             try {
-                MqttMessage message = new MqttMessage(messageStr.getBytes());
-                message.setQos(2);
-                client.publish(topic, message);
-                System.out.println("Message published to " + topic + ": " + messageStr);
-            } catch (MqttException e) {
+                T1DataRepository repo = T1DataRepository.getInstance();
+                MqttClient client = new MqttClient(BROKER, CLIENT_ID);
+                client.connect();
+                System.out.println("Connected to BROKER: " + BROKER);
+                
+                while (true) {
+                    String content = repo.getInstance().getBallX() + "," + repo.getInstance().getBallY() +  "," + repo.getInstance().getCurY() + "," + repo.getInstance().getMessage() ;
+                    MqttMessage message = new MqttMessage(content.getBytes());
+                    message.setQos(2);
+                    if (client.isConnected())
+                        client.publish(TOPIC, message);
+                    System.out.println("Message published: " + content);
+                    Thread.sleep(5000);
+                }
+            } catch (MqttException | InterruptedException e) {
                 e.printStackTrace();
             }
-        } else {
-            System.out.println("Client is not connected. Cannot publish message.");
         }
     }
 
