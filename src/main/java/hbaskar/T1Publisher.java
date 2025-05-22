@@ -75,12 +75,11 @@ public class T1Publisher implements Runnable {
                 System.out.println("Connected to BROKER: " + BROKER);
                 
                 while (true) {
-                    String content = repo.getInstance().getBallX() + "," + repo.getInstance().getBallY() +  "," + repo.getInstance().getCurY() + "," + repo.getInstance().getMessage() ;
-                    MqttMessage message = new MqttMessage(content.getBytes());
+                    MqttMessage message = new MqttMessage(messageStr.getBytes());
                     message.setQos(2);
                     if (client.isConnected())
                         client.publish(TOPIC, message);
-                    System.out.println("Message published: " + content);
+                    System.out.println("Message published: " + messageStr);
                     Thread.sleep(5000);
                 }
             } catch (MqttException | InterruptedException e) {
