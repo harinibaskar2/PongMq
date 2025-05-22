@@ -1,5 +1,9 @@
 package hbaskar;
-import org.eclipse.paho.client.mqttv3.*;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 /**
  *
  * @author Darien Rodrigo
@@ -42,7 +46,7 @@ public class T1Subscriber implements MqttCallback {
         String Message = parts [3];
        	repo.setBallX(BallX);
         repo.setBallY(BallY);
-        repo.setCurY(CurY);	
+
 		// How do we switch between updating the coordinates for the ball and updating the coordinates
 
 	}
