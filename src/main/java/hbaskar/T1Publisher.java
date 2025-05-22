@@ -4,6 +4,24 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+
+
+
+
+
+/**
+ * This class implements a simple MQTT publisher using the Eclipse Paho library.
+ * It connects to the Mosquitto test broker and periodically publishes messages 
+ * to a specific topic. The publisher runs in a separate thread and supports 
+ * graceful shutdown through a `stop()` method.
+ *
+ * @author hbaskar
+ * @version 1.1
+ */
+
+
+
+
 public class T1Publisher implements Runnable {
 
     private volatile boolean running = true;

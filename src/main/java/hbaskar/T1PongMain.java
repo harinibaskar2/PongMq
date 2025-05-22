@@ -1,17 +1,23 @@
 package hbaskar;
 
+import javax.swing.JFrame;
+
 
 
 
 /**
- * This class contains the main method that sets up and launches the Pong game window.
- * It initializes the chat panel, starts the MQTT publisher, and integrates all components
- * into a JFrame. It also handles a clean shutdown of the MQTT thread on exit.
- * 
+ * This class is the main entry point for the Pong game application. It initializes the
+ * ChatPanel, starts the MQTT publisher in a separate thread, creates the PongPanel,
+ * and sets up the main game window using JFrame. It also ensures a clean shutdown
+ * of the MQTT connection when the application exits.
+ *
  * @author hbaskar
  * @version 1.1
  */
-import javax.swing.JFrame;
+
+
+
+
 
 public class T1PongMain {
     public static void main(String[] args) {
