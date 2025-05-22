@@ -4,24 +4,17 @@ import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-
-
-
-
-
 /**
  * This class implements a simple MQTT publisher using the Eclipse Paho library.
  * It connects to the Mosquitto test broker and periodically publishes messages 
  * to a specific topic. The publisher runs in a separate thread and supports 
  * graceful shutdown through a `stop()` method.
+ * 
+ * It also provides a method to publish custom messages on-demand.
  *
  * @author hbaskar
  * @version 1.1
  */
-
-
-
-
 public class T1Publisher implements Runnable {
 
     private volatile boolean running = true;
@@ -60,7 +53,40 @@ public class T1Publisher implements Runnable {
         }
     }
 
+    /**
+     * Gracefully stops the publishing loop.
+     */
     public void stop() {
         running = false;
+    }
+
+    /**
+     * Publishes a custom message to a specific MQTT topic.
+     *
+     * @param topic The topic to publish to
+     * @param messageStr The message content to publish
+     */
+    public synchronized void publish(String topic, String messageStr) {
+        if (client != null && client.isConnected()) {
+            try {
+                MqttMessage message = new MqttMessage(messageStr.getBytes());
+                message.setQos(2);
+                client.publish(topic, message);
+                System.out.println("Message published to " + topic + ": " + messageStr);
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Client is not connected. Cannot publish message.");
+        }
+    }
+
+    /**
+     * Publishes a custom message to the default topic.
+     *
+     * @param messageStr The message content to publish
+     */
+    public void publish(String messageStr) {
+        publish(TOPIC, messageStr);
     }
 }

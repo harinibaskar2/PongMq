@@ -27,6 +27,7 @@ package hbaskar;
         this.y = FIELD_HEIGHT / 2;
     }
 
+
     public void move() {
         x += dx;
         y += dy;
@@ -44,7 +45,7 @@ package hbaskar;
 
     public void publishState() {
         String message = x + "," + y;
-        T1Publisher.publish("pong/ball", message);
+        publisher.publish("pong/ball", message);
     }
 
     public void updateFromMessage(String message) {
