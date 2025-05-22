@@ -22,7 +22,7 @@ public class T1Publisher implements Runnable {
 
     private static final String BROKER = "tcp://test.mosquitto.org:1883";
     private static final String TOPIC = "cal-poly/csc/309";
-    private static final String CLIENT_ID = "jgs-publisher";
+    private static final String CLIENT_ID = "hbaskar";
 
     @Override
     public void run() {
