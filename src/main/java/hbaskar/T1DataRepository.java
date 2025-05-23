@@ -1,53 +1,38 @@
 package hbaskar;
 
 /**
- * This class acts as a centralized data repository for storing and managing 
- * the state of a simple Pong-style game. It maintains information about 
- * the ball's position, paddle positions for both server and client players, 
- * direction of the ball, and the role of the current instance (server or client).
- * 
- * It implements the Singleton design pattern to ensure that all components 
- * in the application access and modify a consistent game state.
- * 
- * Game logic, including ball movement and collision detection, is encapsulated 
- * in this class.
+ * Centralized data repository for storing and managing the state of a Pong game.
+ * Implements Singleton pattern for consistent game state access.
+ * All game components access data through this repository.
  * 
  * @author hbaskar
  * @version 1.1
  */
 public class T1DataRepository {
-
-    // Single instance, volatile for safe publication in multi-threaded env
     private static volatile T1DataRepository instance;
 
+    // Remove ballDx and ballDy - now handled by T1Ball
     private int ballX;
     private int ballY;
     private int clientPlayerY;
     private int serverPlayerY;
-    private int direction;
     private int whoAmI;
-    private String message;
-
-    private final T1ChatPanel chatPanel;
-
-    private static final int RIGHT = 0;
-    private static final int LEFT = 1;
+    private int serverScore;
+    private int clientScore;
+    private boolean fanCelebration = false;
 
     public static final int SERVER = 0; 
     public static final int CLIENT = 1;
+    
+    private static final int FIELD_WIDTH = 800;
+    private static final int FIELD_HEIGHT = 600;
+    private static final int PADDLE_HEIGHT = 50;
+    private static final int BALL_SIZE = 10;
 
-    // Private constructor so no external instantiation
     private T1DataRepository() {
-        ballX = 400;
-        ballY = 300;
-        clientPlayerY = 250;
-        serverPlayerY = 250;
-        direction = RIGHT;
-        whoAmI = SERVER; // example default SERVER
-        this.chatPanel = T1ChatPanel.getInstance();
+        resetGame();
     }
 
-    // Double-checked locking for thread-safe singleton access
     public static T1DataRepository getInstance() {
         if (instance == null) {
             synchronized (T1DataRepository.class) {
@@ -59,112 +44,50 @@ public class T1DataRepository {
         return instance;
     }
 
-    // Getters and setters for variables
-    public int getBallX() {
-        return ballX;
+    public void resetGame() {
+        ballX = FIELD_WIDTH / 2;
+        ballY = FIELD_HEIGHT / 2;
+        clientPlayerY = FIELD_HEIGHT / 2 - PADDLE_HEIGHT / 2;
+        serverPlayerY = FIELD_HEIGHT / 2 - PADDLE_HEIGHT / 2;
+        serverScore = 0;
+        clientScore = 0;
+        fanCelebration = false;
     }
 
-    public void setBallX(int ballX) {
-        this.ballX = ballX;
+    // Remove moveBall() and resetBall() - now handled by T1Ball
+    // Remove checkPaddleCollision() - now handled by T1Ball
+
+    // Add increment methods for ball to use
+    public void incrementServerScore() {
+        serverScore++;
+    }
+    
+    public void incrementClientScore() {
+        clientScore++;
     }
 
-    public int getBallY() {
-        return ballY;
+    // Getters and setters
+    public int getBallX() { return ballX; }
+    public void setBallX(int ballX) { this.ballX = ballX; }
+    public int getBallY() { return ballY; }
+    public void setBallY(int ballY) { this.ballY = ballY; }
+    public int getBallWidth() { return BALL_SIZE; }
+    public int getBallHeight() { return BALL_SIZE; }
+    public int getFieldWidth() { return FIELD_WIDTH; }
+    public int getFieldHeight() { return FIELD_HEIGHT; }
+    public int getClientPlayerY() { return clientPlayerY; }
+    public void setClientPlayerY(int y) { 
+        this.clientPlayerY = Math.max(0, Math.min(y, FIELD_HEIGHT - PADDLE_HEIGHT)); 
     }
-
-    public void setBallY(int ballY) {
-        this.ballY = ballY;
+    public int getServerPlayerY() { return serverPlayerY; }
+    public void setServerPlayerY(int y) { 
+        this.serverPlayerY = Math.max(0, Math.min(y, FIELD_HEIGHT - PADDLE_HEIGHT)); 
     }
-
-    public int getClientPlayerY() {
-        return clientPlayerY;
-    }
-
-    public void setClientPlayerY(int y) {
-        if (y < 0) {
-            y = 0;
-        } else if (y > 550) {
-            y = 550;
-        }
-        clientPlayerY = y;
-    }
-
-    public int getServerPlayerY() {
-        return serverPlayerY;
-    }
-
-    public void setServerPlayerY(int y) {
-        if (y < 0) {
-            y = 0;
-        } else if (y > 550) {
-            y = 550;
-        }
-        serverPlayerY = y;
-    }
-
-    public int getDirection() {
-        return direction;
-    }
-
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
-
-    public int getWhoAmI() {
-        return whoAmI;
-    }
-
-    public void setWhoAmI(int whoAmI) {
-        this.whoAmI = whoAmI;
-    }
-
-    public void setMsg(String input){
-        this.message = input;
-        chatPanel.addMessage(message);
-    }
-
-    public String getMsg(){
-        String temp = message;
-        message ="";
-        return temp;
-    }
-
-    // Move the ball logic
-    public void moveBall() {
-        if (direction == RIGHT)
-            ballX += 10;
-        else
-            ballX -= 10;
-
-        if (ballX >= 800 || ballX <= 0)
-            ballX = 400;
-
-        if (collision()) {
-            direction = (direction == RIGHT) ? LEFT : RIGHT;
-        }
-    }
-
-    private boolean collision() {
-        // Server paddle collision on left side (x=10 or 20)
-        if (ballX <= 20 &&
-            ballY >= serverPlayerY &&
-            ballY <= serverPlayerY + 50)
-            return true;
-
-        // Client paddle collision on right side (x=780)
-        if (ballX >= 780 &&
-            ballY >= clientPlayerY &&
-            ballY <= clientPlayerY + 50)
-            return true;
-
-        return false;
-    }
-
-    // Coordinates setter
-    public void setCoordinates(int x, int y) {
-        this.ballX = x;
-        this.ballY = y;
-    }
+    public int getWhoAmI() { return whoAmI; }
+    public void setWhoAmI(int whoAmI) { this.whoAmI = whoAmI; }
+    public int getServerScore() { return serverScore; }
+    public int getClientScore() { return clientScore; }
+    public boolean isFanCelebrationOn() { return fanCelebration; }
+    public void triggerFanCelebration() { fanCelebration = true; }
+    public void resetFanCelebration() { fanCelebration = false; }
 }
-
-

@@ -22,7 +22,6 @@ public class T1Publisher implements Runnable {
 
     private static final String BROKER = "tcp://test.mosquitto.org:1883";
     private static final String TOPIC = "ponggame";
-    private static final String CLIENT_ID = "hbaskar";
 
     @Override
     public void run() {
@@ -70,30 +69,22 @@ public class T1Publisher implements Runnable {
         if (client != null && client.isConnected()) {
             try {
                 T1DataRepository repo = T1DataRepository.getInstance();
-                int ballX = repo.getBallX();
-                int ballY = repo.getBallY();
-                int serverPlayerY = repo.getServerPlayerY();
-                int clientPlayerY = repo.getClientPlayerY();
-                String mString = repo.getMsg();
-
-                messageStr = ballX + "," + ballY + "," + serverPlayerY + "," + clientPlayerY+ ","+ mString;
-                MqttClient client = new MqttClient(BROKER, CLIENT_ID);
-                client.connect();
-                System.out.println("Connected to BROKER: " + BROKER);
+                String gameState = String.format("%d,%d,%d,%d", 
+                    repo.getBallX(), repo.getBallY(), 
+                    repo.getClientPlayerY(), repo.getServerPlayerY());
                 
-                while (true) {
-                    MqttMessage message = new MqttMessage(messageStr.getBytes());
-                    message.setQos(2);
-                    if (client.isConnected())
-                        client.publish(TOPIC, message);
-                    System.out.println("Message published: " + messageStr);
-                    Thread.sleep(5000);
-                }
-            } catch (MqttException | InterruptedException e) {
+                MqttMessage message = new MqttMessage(gameState.getBytes());
+                message.setQos(1);
+                client.publish(topic, message);
+                
+            } catch (MqttException e) {
                 e.printStackTrace();
             }
         }
     }
+    
+    // Fix CLIENT_ID to be unique:
+    private static final String CLIENT_ID = "PongPlayer_" + System.currentTimeMillis();
 
     /**
      * Publishes a custom message to the default topic.

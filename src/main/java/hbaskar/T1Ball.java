@@ -1,63 +1,105 @@
 package hbaskar;
 
-
 /**
- * T1Ball.java
- * Table 1
- * Daniel Alexander Miranda
- *
- * Responsibilities:
- * - Handle ball position, velocity, and movement logic
- * - Detect wall and paddle collisions
- * - Publish ball state updates via MQTT
- * - Subscribe to ball state for sync (if this instance is not the host)
+ * Ball component that handles all ball logic and movement.
+ * Gets position data from repository and handles movement calculations.
+ * 
+ * @author hbaskar
+ * @version 1.1
  */
-
- public class T1Ball {
-    private int x, y;
-    private int dx = 9, dy = 9;
+public class T1Ball {
+    private int dx = 5, dy = 4; // Ball velocity
     private final int WIDTH = 10, HEIGHT = 10;
-    private final int FIELD_WIDTH = 800, FIELD_HEIGHT = 600;
+    private final T1DataRepository repo;
 
-    private T1Publisher publisher;
-
-    public T1Ball(T1Publisher publisher) {
-        this.publisher = publisher;
-        this.x = FIELD_WIDTH / 2;
-        this.y = FIELD_HEIGHT / 2;
+    public T1Ball() {
+        this.repo = T1DataRepository.getInstance();
+        // Initialize ball position in center
+        repo.setBallX(repo.getFieldWidth() / 2);
+        repo.setBallY(repo.getFieldHeight() / 2);
     }
 
-
     public void move() {
+        int x = repo.getBallX();
+        int y = repo.getBallY();
+        
+        // Update position
         x += dx;
         y += dy;
 
-        if (y <= 0 || y >= FIELD_HEIGHT - HEIGHT) {
+        // Bounce off top/bottom walls
+        if (y <= 0 || y >= repo.getFieldHeight() - HEIGHT) {
             dy = -dy;
         }
 
-        if (x <= 0 || x >= FIELD_WIDTH - WIDTH) {
+        // Check paddle collisions
+        if (checkPaddleCollision(x, y)) {
             dx = -dx;
         }
 
-        publishState();
-    }
-
-    public void publishState() {
-        String message = x + "," + y;
-        publisher.publish("pong/ball", message);
-    }
-
-    public void updateFromMessage(String message) {
-        String[] parts = message.split(",");
-        if (parts.length == 2) {
-            x = Integer.parseInt(parts[0]);
-            y = Integer.parseInt(parts[1]);
+        // Check scoring
+        if (x <= 0) {
+            // Server scores
+            repo.incrementServerScore();
+            repo.triggerFanCelebration();
+            resetBall();
+            System.out.println("Server scored! Score: Client " + repo.getClientScore() + " - Server " + repo.getServerScore());
+            return;
+        } else if (x >= repo.getFieldWidth() - WIDTH) {
+            // Client scores
+            repo.incrementClientScore();
+            repo.triggerFanCelebration();
+            resetBall();
+            System.out.println("Client scored! Score: Client " + repo.getClientScore() + " - Server " + repo.getServerScore());
+            return;
         }
+
+        // Update repository with new position
+        repo.setBallX(x);
+        repo.setBallY(y);
     }
 
-    public int getX() { return x; }
-    public int getY() { return y; }
-    public int getWidth() { return WIDTH; }
-    public int getHeight() { return HEIGHT; }
+    private boolean checkPaddleCollision(int ballX, int ballY) {
+        // Left paddle (client) collision
+        if (ballX <= 20 && dx < 0 && 
+            ballY + HEIGHT >= repo.getClientPlayerY() && 
+            ballY <= repo.getClientPlayerY() + 50) {
+            return true;
+        }
+        
+        // Right paddle (server) collision
+        if (ballX >= repo.getFieldWidth() - 30 && dx > 0 && 
+            ballY + HEIGHT >= repo.getServerPlayerY() && 
+            ballY <= repo.getServerPlayerY() + 50) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    private void resetBall() {
+        // Reset to center
+        repo.setBallX(repo.getFieldWidth() / 2);
+        repo.setBallY(repo.getFieldHeight() / 2);
+        
+        // Random direction
+        dx = (Math.random() < 0.5) ? -5 : 5;
+        dy = (Math.random() < 0.5) ? -4 : 4;
+    }
+
+    public int getX() {
+        return repo.getBallX();
+    }
+
+    public int getY() {
+        return repo.getBallY();
+    }
+
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    public int getHeight() {
+        return HEIGHT;
+    }
 }

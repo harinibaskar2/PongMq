@@ -52,33 +52,31 @@ public class T1Subscriber implements MqttCallback, Runnable {
 	}
 	
 	@Override
-	public void messageArrived(String s, MqttMessage mqttMessage) {
-
-
-		T1DataRepository repo = T1DataRepository.getInstance();
-	    String content = new String(mqttMessage.getPayload());
-        String [] parts = content.split(",");
-        int BallX = Integer.parseInt(parts[0]);
-        int BallY = Integer.parseInt(parts[1]);
-		int serverPlayerY = Integer.parseInt(parts[3]);// Switched because we're treating the home team as the server and the away team as the client in all cases
-		int clientPlayerY = Integer.parseInt(parts[2]);
-		String message = parts[4];
-       	repo.setBallX(BallX);
-        repo.setBallY(BallY);
-		repo.setServerPlayerY(serverPlayerY);
-		repo.setClientPlayerY(clientPlayerY);
-		repo.setMsg(message);
-
-		// How do we switch between updating the coordinates for the ball and updating the coordinates
-		// When breaking the tie between client and server player, the subscriber should instantly try and read a file
-		// Alternately, define one naturally as a server player and the other as a client player
-	}
-	
-	@Override
-	public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-		System.out.println("Delivered complete: " + iMqttDeliveryToken.getMessageId());
-	}
-
+public void messageArrived(String s, MqttMessage mqttMessage) {
+    T1DataRepository repo = T1DataRepository.getInstance();
+    String content = new String(mqttMessage.getPayload());
+    String[] parts = content.split(",");
+    
+    if (parts.length >= 4) {
+        try {
+            // Only update opponent's paddle position, not our own or ball
+            if (repo.getWhoAmI() == T1DataRepository.CLIENT) {
+                int serverY = Integer.parseInt(parts[3]);
+                repo.setServerPlayerY(serverY);
+            } else {
+                int clientY = Integer.parseInt(parts[2]);
+                repo.setClientPlayerY(clientY);
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid message format: " + content);
+        }
+    }
 }
 
+    @Override
+    public void deliveryComplete(IMqttDeliveryToken token) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deliveryComplete'");
+    }
 
+}
