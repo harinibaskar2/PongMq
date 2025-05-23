@@ -17,8 +17,8 @@ import java.util.List;
  * The messages are displayed in a monospaced font, with each new message 
  * shown beneath the previous ones.
  *
- * @author hbaskar
- * @version 1.1
+ * @author Darien R
+ * @version 1.2
  */
 
 
@@ -26,12 +26,27 @@ import java.util.List;
 public class T1ChatPanel {
     private final List<String> messages = new LinkedList<>();
     private final int maxMessages;
+    private static T1ChatPanel instance;
 
-    public T1ChatPanel(int maxMessages) {
+
+    private T1ChatPanel(int maxMessages) {
         this.maxMessages = maxMessages;
     }
 
+    // Public method to access the singleton instance
+    public static T1ChatPanel getInstance() {
+        if (instance == null) {
+            instance = new T1ChatPanel(5); // you can make this configurable if needed
+        }
+        return instance;
+    }
+
     public void addMessage(String msg) {
+        // No empty messages allowed
+        if (msg == null || msg.trim().isEmpty()) {
+            return; 
+        }
+
         if (messages.size() >= maxMessages) {
             messages.remove(0);
         }

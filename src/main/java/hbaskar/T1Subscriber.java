@@ -60,8 +60,14 @@ public class T1Subscriber implements MqttCallback, Runnable {
         String [] parts = content.split(",");
         int BallX = Integer.parseInt(parts[0]);
         int BallY = Integer.parseInt(parts[1]);
+		int serverPlayerY = Integer.parseInt(parts[3]);// Switched because we're treating the home team as the server and the away team as the client in all cases
+		int clientPlayerY = Integer.parseInt(parts[2]);
+		String message = parts[4];
        	repo.setBallX(BallX);
         repo.setBallY(BallY);
+		repo.setServerPlayerY(serverPlayerY);
+		repo.setClientPlayerY(clientPlayerY);
+		repo.setMsg(message);
 
 		// How do we switch between updating the coordinates for the ball and updating the coordinates
 		// When breaking the tie between client and server player, the subscriber should instantly try and read a file

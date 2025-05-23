@@ -12,8 +12,8 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
  * 
  * It also provides a method to publish custom messages on-demand.
  *
- * @author hbaskar
- * @version 1.1
+ * @author Darien
+ * @version 1.2
  */
 public class T1Publisher implements Runnable {
 
@@ -70,6 +70,13 @@ public class T1Publisher implements Runnable {
         if (client != null && client.isConnected()) {
             try {
                 T1DataRepository repo = T1DataRepository.getInstance();
+                int ballX = repo.getBallX();
+                int ballY = repo.getBallY();
+                int serverPlayerY = repo.getServerPlayerY();
+                int clientPlayerY = repo.getClientPlayerY();
+                String mString = repo.getMsg();
+
+                messageStr = ballX + "," + ballY + "," + serverPlayerY + "," + clientPlayerY+ ","+ mString;
                 MqttClient client = new MqttClient(BROKER, CLIENT_ID);
                 client.connect();
                 System.out.println("Connected to BROKER: " + BROKER);

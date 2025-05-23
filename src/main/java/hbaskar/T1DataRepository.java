@@ -26,6 +26,9 @@ public class T1DataRepository {
     private int serverPlayerY;
     private int direction;
     private int whoAmI;
+    private String message;
+
+    private final T1ChatPanel chatPanel;
 
     private static final int RIGHT = 0;
     private static final int LEFT = 1;
@@ -41,6 +44,7 @@ public class T1DataRepository {
         serverPlayerY = 250;
         direction = RIGHT;
         whoAmI = SERVER; // example default SERVER
+        this.chatPanel = T1ChatPanel.getInstance();
     }
 
     // Double-checked locking for thread-safe singleton access
@@ -112,6 +116,17 @@ public class T1DataRepository {
 
     public void setWhoAmI(int whoAmI) {
         this.whoAmI = whoAmI;
+    }
+
+    public void setMsg(String input){
+        this.message = input;
+        chatPanel.addMessage(message);
+    }
+
+    public String getMsg(){
+        String temp = message;
+        message ="";
+        return temp;
     }
 
     // Move the ball logic
