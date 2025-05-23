@@ -1,7 +1,5 @@
 package hbaskar;
 
-
-
 /**
  * This class acts as a centralized data repository for storing and managing 
  * the state of a simple Pong-style game. It maintains information about 
@@ -17,8 +15,6 @@ package hbaskar;
  * @author hbaskar
  * @version 1.1
  */
-
-
 public class T1DataRepository {
 
     // Single instance, volatile for safe publication in multi-threaded env
@@ -44,7 +40,7 @@ public class T1DataRepository {
         clientPlayerY = 250;
         serverPlayerY = 250;
         direction = RIGHT;
-        whoAmI = 0; // example default SERVER
+        whoAmI = SERVER; // example default SERVER
     }
 
     // Double-checked locking for thread-safe singleton access
@@ -81,6 +77,11 @@ public class T1DataRepository {
     }
 
     public void setClientPlayerY(int y) {
+        if (y < 0) {
+            y = 0;
+        } else if (y > 550) {
+            y = 550;
+        }
         clientPlayerY = y;
     }
 
@@ -89,6 +90,11 @@ public class T1DataRepository {
     }
 
     public void setServerPlayerY(int y) {
+        if (y < 0) {
+            y = 0;
+        } else if (y > 550) {
+            y = 550;
+        }
         serverPlayerY = y;
     }
 
@@ -143,6 +149,7 @@ public class T1DataRepository {
     public void setCoordinates(int x, int y) {
         this.ballX = x;
         this.ballY = y;
-
     }
 }
+
+

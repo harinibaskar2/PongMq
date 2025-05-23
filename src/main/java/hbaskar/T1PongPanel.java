@@ -114,13 +114,18 @@ public class T1PongPanel extends JPanel implements ActionListener, MouseMotionLi
     @Override public void mouseReleased(MouseEvent e) {}
     @Override public void mouseEntered(MouseEvent e) {}
     @Override public void mouseExited(MouseEvent e) {}
-
     @Override
     public void mouseMoved(MouseEvent e) {
+        int mouseY = e.getY();
+
+        // Bound mouseY within the paddle movement area (0 to 550)
+        int boundedY = Math.max(0, Math.min(mouseY, 600 - 50)); // 50 is paddle height
+
         if (T1DataRepository.getInstance().getWhoAmI() == T1DataRepository.CLIENT)
-            T1DataRepository.getInstance().setClientPlayerY(e.getY());
+            T1DataRepository.getInstance().setClientPlayerY(boundedY);
         else
-            T1DataRepository.getInstance().setServerPlayerY(e.getY());
+            T1DataRepository.getInstance().setServerPlayerY(boundedY);
+
         repaint();
     }
 
