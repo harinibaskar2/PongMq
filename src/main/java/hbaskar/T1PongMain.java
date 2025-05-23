@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 
 
@@ -66,7 +67,9 @@ public class T1PongMain {
 
         // Set up the JFrame
         JFrame frame = new JFrame("Pong Game");
-        frame.add(pongPanel);
+        frame.setLayout(new BorderLayout());
+        frame.add(pongPanel,BorderLayout.CENTER);
+        frame.add(inputPanel,BorderLayout.SOUTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setResizable(false);
