@@ -124,12 +124,14 @@ public class T1DataRepository {
     }
 
     private boolean collision() {
-        if (ballX == 20 &&
+        // Server paddle collision on left side (x=10 or 20)
+        if (ballX <= 20 &&
             ballY >= serverPlayerY &&
             ballY <= serverPlayerY + 50)
             return true;
 
-        if (ballX == 780 &&
+        // Client paddle collision on right side (x=780)
+        if (ballX >= 780 &&
             ballY >= clientPlayerY &&
             ballY <= clientPlayerY + 50)
             return true;
