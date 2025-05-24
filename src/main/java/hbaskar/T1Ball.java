@@ -4,7 +4,7 @@ package hbaskar;
  * Ball component that handles all ball logic and movement.
  * Gets position data from repository and handles movement calculations.
  * 
- * @author hbaskar
+ * @author Daniel Alexander Miranda
  * @version 1.1
  */
 public class T1Ball {

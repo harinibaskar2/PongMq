@@ -1,21 +1,22 @@
 package hbaskar;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.BasicStroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+
 import javax.swing.JPanel;
 
 /**
  * Main game field that renders all game elements.
  * Gets all data from repository and uses Ball, Fans, and ChatPanel components.
  * 
- * @author hbaskar
+ * @author Daniel Alexander Miranda
  * @version 1.1
  */
 public class T1Field extends JPanel implements MouseMotionListener {
