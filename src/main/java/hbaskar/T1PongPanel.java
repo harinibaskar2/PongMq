@@ -1,14 +1,24 @@
 package hbaskar;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * Alternative main game panel that handles rendering and user input.
  * Uses T1Ball for ball logic instead of repository ball methods.
  * 
  * @author hbaskar
+   @author daniel miranda implemented the ball, fans, and field into PongPanel 
  * @version 1.1
  */
 public class T1PongPanel extends JPanel implements MouseMotionListener {
